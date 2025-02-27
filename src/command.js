@@ -1,5 +1,21 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import {
+  findNotes,
+  getAllNotes,
+  newNote,
+  removeAllNotes,
+  removeNote,
+} from "./notes.js";
+
+const listNotes = (notes) => {
+  notes.forEach(({ id, content, tags }) => {
+    console.log("id: ", id);
+    console.log("tags: ", tags);
+    console.log("content: ", content);
+    console.log("\n");
+  });
+};
 
 yargs(hideBin(process.argv))
   .command(
@@ -11,8 +27,10 @@ yargs(hideBin(process.argv))
         description: "The content of the note to create",
       });
     },
-    (argv) => {
-      console.info("hello ", argv);
+    async (argv) => {
+      const tags = argv.tags ? argv.tags.split(",") : [];
+      const note = await newNote(argv.note, tags);
+      listNotes([{ ...note }]);
     }
   )
   .option("tags", {
@@ -24,7 +42,10 @@ yargs(hideBin(process.argv))
     "all",
     "get all notes",
     () => {},
-    async (argv) => {}
+    async () => {
+      const notes = await getAllNotes();
+      listNotes(notes);
+    }
   )
   .command(
     "find <filter>", //the <> at the edges of the parameter shows that it is required, whereas [] means that it is optional
@@ -36,7 +57,12 @@ yargs(hideBin(process.argv))
         type: "string",
       });
     },
-    async (argv) => {}
+    async (argv) => {
+      const found = await findNotes(argv.filter);
+
+      if (found) listNotes(found);
+      else console.log("No such files in the Db");
+    }
   )
   .command(
     "remove <id>",
@@ -47,7 +73,12 @@ yargs(hideBin(process.argv))
         description: "The id of the note you want to remove",
       });
     },
-    async (argv) => {}
+    async (argv) => {
+      const deletedNoteId = await removeNote(argv.id);
+
+      if (deletedNoteId) console.log("Deleted:", deletedNoteId);
+      else console.log(`Note with ID: ${argv.id} does not exist`);
+    }
   )
   .command(
     "web [port]",
@@ -65,7 +96,10 @@ yargs(hideBin(process.argv))
     "clean",
     "remove all notes",
     () => {},
-    async (argv) => {}
+    async () => {
+      await removeAllNotes();
+      console.log("Db reseted");
+    }
   )
   .demandCommand(1)
   .parse();
