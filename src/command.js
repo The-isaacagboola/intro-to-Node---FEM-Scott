@@ -20,7 +20,6 @@ yargs(hideBin(process.argv))
     type: "string",
     description: "Tags to add to note",
   })
-
   .command(
     "all",
     "get all notes",
@@ -28,7 +27,7 @@ yargs(hideBin(process.argv))
     async (argv) => {}
   )
   .command(
-    "find <filter>",
+    "find <filter>", //the <> at the edges of the parameter shows that it is required, whereas [] means that it is optional
     "get matching notes",
     (yargs) => {
       return yargs.positional("filter", {
