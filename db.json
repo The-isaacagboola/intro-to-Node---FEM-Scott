@@ -1,3 +1,29 @@
 {
-  "notes": []
+  "notes": [
+    {
+      "content": "My first note",
+      "id": 1740728048623,
+      "tags": ["first", "tryout", " display"]
+    },
+    {
+      "content": "New note",
+      "id": 1740728120213,
+      "tags": ["general", " local ", " assembly"]
+    },
+    {
+      "content": "Adding a new note",
+      "id": 1740734301909,
+      "tags": ["trim", "to", "see", "whatt", "happens"]
+    },
+    {
+      "content": "Newest note today",
+      "id": 1740734432737,
+      "tags": ["check", "for", "", "empty", "spaces"]
+    },
+    {
+      "content": "Newest note today",
+      "id": 1740734503242,
+      "tags": ["check", "for", "empty", "spaces", "fixed"]
+    }
+  ]
 }

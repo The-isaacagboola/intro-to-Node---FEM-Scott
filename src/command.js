@@ -10,10 +10,10 @@ import {
 
 const listNotes = (notes) => {
   notes.forEach(({ id, content, tags }) => {
+    console.log("\n");
     console.log("id: ", id);
     console.log("tags: ", tags);
     console.log("content: ", content);
-    console.log("\n");
   });
 };
 
@@ -28,7 +28,12 @@ yargs(hideBin(process.argv))
       });
     },
     async (argv) => {
-      const tags = argv.tags ? argv.tags.split(",") : [];
+      const tags = argv.tags
+        ? argv.tags
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item !== "")
+        : [];
       const note = await newNote(argv.note, tags);
       listNotes([{ ...note }]);
     }
